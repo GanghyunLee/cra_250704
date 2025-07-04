@@ -1,4 +1,6 @@
 ﻿#include <assert.h>
+#include <iosfwd>
+#include <sstream>
 
 #include "defines.h"
 #include "utils.h"
@@ -38,7 +40,14 @@ QuestionType processCarSelection(int userInput);
 const char* generateCarString(CarType carType);
 const char* generateEngineString(Engine engine);
 const char* generateBrakeString(BrakeSystem brake);
-const char* generateSteeringSystem(SteeringSystem steering);
+const char* generateSteeringString(SteeringSystem steering);
+
+const char* generatePassFailString(bool result);
+
+CarType getCurrentUserInputCarType() { return static_cast<CarType>(userInputList[CarType_Q]); }
+BrakeSystem getCurrentUserInputBrakeSystem() { return static_cast<BrakeSystem>(userInputList[BrakeSystem_Q]); }
+Engine getCurrentUserInputEngine() { return static_cast<Engine>(userInputList[Engine_Q]); }
+SteeringSystem getCurrentUserInputSteeringSystem() { return static_cast<SteeringSystem>(userInputList[SteeringSystem_Q]); }
 
 int main()
 {
@@ -85,7 +94,7 @@ void selectEngine(Engine engine)
 
 void selectbrakeSystem(BrakeSystem brake)
 {
-    userInputList[brakeSystem_Q] = brake;
+    userInputList[BrakeSystem_Q] = brake;
     printf(generateBrakeString(brake));
     printf(" 제동장치를 선택하셨습니다.\n");
 }
@@ -93,36 +102,44 @@ void selectbrakeSystem(BrakeSystem brake)
 void selectSteeringSystem(SteeringSystem steering)
 {
     userInputList[SteeringSystem_Q] = steering;
-    printf(generateSteeringSystem(steering));
+    printf(generateSteeringString(steering));
     printf(" 조향장치를 선택하셨습니다.\n");
 }
 
 int ValidateUserInputList()
 {
-    if (userInputList[CarType_Q] == SEDAN && userInputList[brakeSystem_Q] == CONTINENTAL)
+    CarType userInputCarType = getCurrentUserInputCarType();                            
+    BrakeSystem userInputBrakeSystem = getCurrentUserInputBrakeSystem();                
+    Engine userInputEngine = getCurrentUserInputEngine();                               
+    SteeringSystem userInputSteeringSystem = getCurrentUserInputSteeringSystem();
+
+	if (userInputCarType == SEDAN)
     {
-        return false;
+        if (userInputBrakeSystem == CONTINENTAL)
+            return false;
     }
-    else if (userInputList[CarType_Q] == SUV && userInputList[Engine_Q] == TOYOTA)
+
+	if (userInputCarType == SUV)
+	{
+        if (userInputEngine == TOYOTA)
+            return false;
+	}
+
+    if (userInputCarType == TRUCK)
     {
-        return false;
+        if (userInputEngine == WIA)
+            return false;
+
+        if (userInputBrakeSystem == MANDO)
+            return false;
     }
-    else if (userInputList[CarType_Q] == TRUCK && userInputList[Engine_Q] == WIA)
+
+    if (userInputBrakeSystem == BOSCH_B)
     {
-        return false;
+        if (userInputSteeringSystem != BOSCH_S)
+            return false;
     }
-    else if (userInputList[CarType_Q] == TRUCK && userInputList[brakeSystem_Q] == MANDO)
-    {
-        return false;
-    }
-    else if (userInputList[brakeSystem_Q] == BOSCH_B && userInputList[SteeringSystem_Q] != BOSCH_S)
-    {
-        return false;
-    }
-    else
-    {
-        return true;
-    }
+    
     return true;
 }
 
@@ -134,7 +151,7 @@ void runProducedCar()
     }
     else
     {
-        if (userInputList[Engine_Q] == Engine::BROKEN)
+        if (getCurrentUserInputEngine() == Engine::BROKEN)
         {
             printf("엔진이 고장나있습니다.\n");
             printf("자동차가 움직이지 않습니다.\n");
@@ -142,19 +159,19 @@ void runProducedCar()
         else
         {
             printf("Car Type : ");
-            printf(generateCarString(static_cast<CarType>(userInputList[CarType_Q])));
+            printf(generateCarString(getCurrentUserInputCarType()));
             printf("\n");
 
             printf("Engine : ");
-            printf(generateEngineString(static_cast<Engine>(userInputList[Engine_Q])));
+            printf(generateEngineString(getCurrentUserInputEngine()));
             printf("\n");
 
             printf("Brake System  : ");
-            printf(generateBrakeString(static_cast<BrakeSystem>(userInputList[brakeSystem_Q])));
+            printf(generateBrakeString(getCurrentUserInputBrakeSystem()));
             printf("\n");
 
             printf("SteeringSystem  : ");
-            printf(generateSteeringSystem(static_cast<SteeringSystem>(userInputList[SteeringSystem_Q])));
+            printf(generateSteeringString(getCurrentUserInputSteeringSystem()));
             printf("\n");
 
             printf("자동차가 동작됩니다.\n");
@@ -164,34 +181,71 @@ void runProducedCar()
 
 void testProducedCar()
 {
-    if (userInputList[CarType_Q] == SEDAN && userInputList[brakeSystem_Q] == CONTINENTAL)
+    const CarType carType = getCurrentUserInputCarType();
+    const BrakeSystem brake = getCurrentUserInputBrakeSystem();
+    const Engine engine = getCurrentUserInputEngine();
+    const SteeringSystem steering = getCurrentUserInputSteeringSystem();
+
+    printf("자동차 부품 조합 테스트 결과 : ");
+    if (carType == SEDAN)
     {
-        printf("자동차 부품 조합 테스트 결과 : FAIL\n");
-        printf("Sedan에는 Continental제동장치 사용 불가\n");
+        if (brake == BrakeSystem::CONTINENTAL)
+        {
+            generatePassFailString(false);
+            printf("\n");
+            printf(generateCarString(carType));
+            printf("에는 ");
+            printf(generateBrakeString(brake));
+            printf("제동장치 사용 불가\n");
+        }
     }
-    else if (userInputList[CarType_Q] == SUV && userInputList[Engine_Q] == TOYOTA)
+    else if (carType == SUV)
     {
-        printf("자동차 부품 조합 테스트 결과 : FAIL\n");
-        printf("SUV에는 TOYOTA엔진 사용 불가\n");
+	    if (engine == TOYOTA)
+	    {
+            generatePassFailString(false);
+            printf("\n");
+            printf(generateCarString(carType));
+            printf("에는 ");
+            printf(generateEngineString(engine));
+            printf("엔진 사용 불가\n");
+	    }
     }
-    else if (userInputList[CarType_Q] == TRUCK && userInputList[Engine_Q] == WIA)
+    else if (carType == TRUCK)
     {
-        printf("자동차 부품 조합 테스트 결과 : FAIL\n");
-        printf("Truck에는 WIA엔진 사용 불가\n");
+        if (engine == WIA)
+        {
+            generatePassFailString(false);
+            printf("\n");
+            printf(generateCarString(carType));
+            printf("에는 ");
+            printf(generateEngineString(engine));
+            printf("엔진 사용 불가\n");
+        }
+        else if (brake == MANDO)
+        {
+            generatePassFailString(false);
+            printf("\n");
+            printf(generateCarString(carType));
+            printf("에는 ");
+            printf(generateEngineString(engine));
+            printf("제동장치 사용 불가\n");
+        }
     }
-    else if (userInputList[CarType_Q] == TRUCK && userInputList[brakeSystem_Q] == MANDO)
+
+    else if (brake == BOSCH_B && steering != BOSCH_S)
     {
-        printf("자동차 부품 조합 테스트 결과 : FAIL\n");
-        printf("Truck에는 Mando제동장치 사용 불가\n");
-    }
-    else if (userInputList[brakeSystem_Q] == BOSCH_B && userInputList[SteeringSystem_Q] != BOSCH_S)
-    {
-        printf("자동차 부품 조합 테스트 결과 : FAIL\n");
-        printf("Bosch제동장치에는 Bosch조향장치 이외 사용 불가\n");
+        generatePassFailString(false);
+        printf("\n");
+        printf(generateBrakeString(brake));
+        printf("에는 ");
+        printf(generateSteeringString(steering));
+        printf("조향장치 이외 사용 불가\n");
     }
     else
     {
-        printf("자동차 부품 조합 테스트 결과 : PASS\n");
+        generatePassFailString(true);
+        printf("\n");
     }
 }
 
@@ -238,7 +292,7 @@ void showMenu(QuestionType currentStep)
         printf("3. WIA\n");
         printf("4. 고장난 엔진\n");
     }
-    else if (currentStep == brakeSystem_Q)
+    else if (currentStep == BrakeSystem_Q)
     {
         printf("어떤 제동장치를 선택할까요?\n");
         printf("0. 뒤로가기\n");
@@ -274,6 +328,12 @@ bool tryParseNumber(const char* buf, OUT int& result)
 
 QuestionType processUserInput(QuestionType currentStep, int userInput)
 {
+    const int MIN_USER_INPUT = 1;
+    const int MAX_CAR_TYPE_INPUT = 3;
+    const int MAX_ENGINE_INPUT = 4;
+    const int MAX_BRAKE_INPUT = 3;
+    const int MAX_STEERING_INPUT = 2;
+
     if (userInput == 0)
     {
         // 처음으로 돌아가기
@@ -286,11 +346,15 @@ QuestionType processUserInput(QuestionType currentStep, int userInput)
         }
     }
 
+    std::stringstream ss;
     if (currentStep == CarType_Q)
     {
-        if (!(userInput >= 1 && userInput <= 3))
+        if (!(userInput >= MIN_USER_INPUT && userInput <= MAX_CAR_TYPE_INPUT))
         {
-            printError("차량 타입은 1 ~ 3 범위만 선택 가능\n");
+            std::stringstream ss;
+            ss << "차량 타입은 " << MIN_USER_INPUT << " ~ " << MAX_CAR_TYPE_INPUT;
+            ss << " 범위만 선택 가능\n";
+            printError(ss.str().c_str());
             return currentStep;
         }
 
@@ -300,21 +364,25 @@ QuestionType processUserInput(QuestionType currentStep, int userInput)
     }
     else if (currentStep == Engine_Q)
     {
-        if (!(userInput >= 1 && userInput <= 4))
+        if (!(userInput >= MIN_USER_INPUT && userInput <= MAX_ENGINE_INPUT))
         {
-	        printError("엔진은 1 ~ 4 범위만 선택 가능\n");
+            ss << "엔진은 " << MIN_USER_INPUT << " ~ " << MAX_ENGINE_INPUT;
+            ss << " 범위만 선택 가능\n";
+            printError(ss.str().c_str());
             return currentStep;
         }
 
         selectEngine(static_cast<Engine>(userInput));
         delay(800);
-        return brakeSystem_Q;
+        return BrakeSystem_Q;
     }
-    else if (currentStep == brakeSystem_Q)
+    else if (currentStep == BrakeSystem_Q)
     {
-        if (!(userInput >= 1 && userInput <= 3))
+        if (!(userInput >= MIN_USER_INPUT && userInput <= MAX_BRAKE_INPUT))
         {
-	        printError("제동장치는 1 ~ 3 범위만 선택 가능\n");
+            ss << "제동장치는 " << MIN_USER_INPUT << " ~ " << MAX_BRAKE_INPUT;
+            ss << " 범위만 선택 가능\n";
+            printError(ss.str().c_str());
             return currentStep;
         }
 
@@ -324,9 +392,11 @@ QuestionType processUserInput(QuestionType currentStep, int userInput)
     }
     else if (currentStep == SteeringSystem_Q)
     {
-        if (!(userInput >= 1 && userInput <= 2))
+        if (!(userInput >= MIN_USER_INPUT && userInput <= MAX_STEERING_INPUT))
         {
-	        printError("조향장치는 1 ~ 2 범위만 선택 가능\n");
+            ss << "조향장치는 " << MIN_USER_INPUT << " ~ " << MAX_STEERING_INPUT;
+            ss << " 범위만 선택 가능\n";
+            printError(ss.str().c_str());
             return currentStep;
         }
 
@@ -336,12 +406,12 @@ QuestionType processUserInput(QuestionType currentStep, int userInput)
     }
     else if (currentStep == Run_Test)
     {
-        if (userInput == 1)
+        if (userInput == RunMode::Run)
         {
             runProducedCar();
             delay(2000);
         }
-        else if (userInput == 2)
+        else if (userInput == RunMode::Test)
         {
             printf("Test...\n");
             delay(1500);
@@ -406,7 +476,7 @@ const char* generateBrakeString(BrakeSystem brake)
     return STR_UNKNOWN_STR;
 }
 
-const char* generateSteeringSystem(SteeringSystem steering)
+const char* generateSteeringString(SteeringSystem steering)
 {
     switch (steering)
     {
@@ -417,6 +487,11 @@ const char* generateSteeringSystem(SteeringSystem steering)
     }
 
     return STR_UNKNOWN_STR;
+}
+
+const char* generatePassFailString(bool result)
+{
+	return result ? "PASS" : "FAIL";
 }
 
 void getUserInput(OUT char buf[100])

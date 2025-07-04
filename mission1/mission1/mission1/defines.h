@@ -13,7 +13,7 @@ enum QuestionType
 {
     CarType_Q,
     Engine_Q,
-    brakeSystem_Q,
+    BrakeSystem_Q,
     SteeringSystem_Q,
     Run_Test,
 };
@@ -22,7 +22,7 @@ enum CarType
 {
     SEDAN = 1,
     SUV,
-    TRUCK
+    TRUCK,
 };
 
 enum Engine
@@ -37,11 +37,17 @@ enum BrakeSystem
 {
     MANDO = 1,
     CONTINENTAL,
-    BOSCH_B
+    BOSCH_B,
 };
 
 enum SteeringSystem
 {
     BOSCH_S = 1,
-    MOBIS
+    MOBIS,
+};
+
+enum RunMode
+{
+	Run = 1,
+    Test = 2,
 };
