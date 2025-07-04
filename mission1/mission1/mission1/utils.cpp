@@ -20,17 +20,6 @@ void delay(int ms)
     }
 }
 
-void getUserInput(OUT char buf[100])
-{
-    printf("INPUT > ");
-    fgets(buf, sizeof(buf), stdin);
-
-    // 엔터 개행문자 제거
-    char* context = nullptr;
-    strtok_s(buf, "\r", &context);
-    strtok_s(buf, "\n", &context);
-}
-
 void printLine()
 {
     printf("===============================\n");
