@@ -107,6 +107,10 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -121,14 +125,82 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AbstractBrakeSystem.h" />
+    <ClInclude Include="AbstractEngine.h" />
+    <ClInclude Include="AbstractSteering.h" />
+    <ClInclude Include="BoschBrake.h" />
+    <ClInclude Include="BoschSteering.h" />
+    <ClInclude Include="BrakeSystemFactory.h" />
+    <ClInclude Include="BrokenEngine.h" />
+    <ClInclude Include="CarRunner.h" />
+    <ClInclude Include="Car.h" />
+    <ClInclude Include="CarTypeFactory.h" />
+    <ClInclude Include="ContinentalBrake.h" />
     <ClInclude Include="defines.h" />
-    <ClInclude Include="utils.h" />
+    <ClInclude Include="AbstractCarType.h" />
+    <ClInclude Include="EngineFactory.h" />
+    <ClInclude Include="GmEngine.h" />
+    <ClInclude Include="ICarComponent.h" />
+    <ClInclude Include="MandoBrake.h" />
+    <ClInclude Include="MobisSteering.h" />
+    <ClInclude Include="Sedan.h" />
+    <ClInclude Include="SteeringSystemFactory.h" />
+    <ClInclude Include="Suv.h" />
+    <ClInclude Include="ToyotaEngine.h" />
+    <ClInclude Include="Truck.h" />
+    <ClInclude Include="WiaEngine.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AbstractBrakeSystem.cpp" />
+    <ClCompile Include="AbstractBrakeSystemTest.cpp" />
+    <ClCompile Include="AbstractCarTypeTest.cpp" />
+    <ClCompile Include="AbstractEngine.cpp" />
+    <ClCompile Include="AbstractEngineTest.cpp" />
+    <ClCompile Include="AbstractSteering.cpp" />
+    <ClCompile Include="AbstractSteeringTest.cpp" />
     <ClCompile Include="assemble.cpp" />
-    <ClCompile Include="utils.cpp" />
+    <ClCompile Include="AbstractCarType.cpp" />
+    <ClCompile Include="BoschBrake.cpp" />
+    <ClCompile Include="BoschBrakeTest.cpp" />
+    <ClCompile Include="BoschSteering.cpp" />
+    <ClCompile Include="BoschSteeringTest.cpp" />
+    <ClCompile Include="BrakeSystemFactory.cpp" />
+    <ClCompile Include="BrakeSystemFactoryTest.cpp" />
+    <ClCompile Include="BrokenEngine.cpp" />
+    <ClCompile Include="BrokenEngineTest.cpp" />
+    <ClCompile Include="CarRunner.cpp" />
+    <ClCompile Include="Car.cpp" />
+    <ClCompile Include="CarTypeFactory.cpp" />
+    <ClCompile Include="CarTypeFactoryTest.cpp" />
+    <ClCompile Include="ContinentalBrake.cpp" />
+    <ClCompile Include="ContinentalBrakeTest.cpp" />
+    <ClCompile Include="EngineFactory.cpp" />
+    <ClCompile Include="EngineFactoryTest.cpp" />
+    <ClCompile Include="GmEngine.cpp" />
+    <ClCompile Include="GmEngineTest.cpp" />
+    <ClCompile Include="ICarComponent.cpp" />
+    <ClCompile Include="MandoBrake.cpp" />
+    <ClCompile Include="MandoBrakeTest.cpp" />
+    <ClCompile Include="MobisSteering.cpp" />
+    <ClCompile Include="MobisSteeringTest.cpp" />
+    <ClCompile Include="Sedan.cpp" />
+    <ClCompile Include="SedanTest.cpp" />
+    <ClCompile Include="SteeringSystemFactory.cpp" />
+    <ClCompile Include="SteeringSystemFactoryTest.cpp" />
+    <ClCompile Include="Suv.cpp" />
+    <ClCompile Include="SuvTest.cpp" />
+    <ClCompile Include="ToyotaEngine.cpp" />
+    <ClCompile Include="ToyotaEngineTest.cpp" />
+    <ClCompile Include="Truck.cpp" />
+    <ClCompile Include="TruckTest.cpp" />
+    <ClCompile Include="WiaEngine.cpp" />
+    <ClCompile Include="WiaEngineTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

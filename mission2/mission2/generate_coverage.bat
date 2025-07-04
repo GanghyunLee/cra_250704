@@ -1,0 +1,1 @@
+OpenCppCoverage.exe --sources C:*.cpp --export_type=html:coverage -- .\x64\Debug\mission2.exe
