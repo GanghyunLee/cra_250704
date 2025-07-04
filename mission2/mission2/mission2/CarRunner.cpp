@@ -13,6 +13,8 @@
 
 void CarRunner::ValidateCar()
 {
+	std::string errMsg;
+
 	std::shared_ptr<AbstractCarType> carType = _car->car_type();
 	std::shared_ptr<AbstractBrakeSystem> brakeSystem = _car->brake_system();
 	std::shared_ptr<AbstractEngine> engine = _car->engine();
@@ -26,7 +28,7 @@ void CarRunner::ValidateCar()
 			ss << carType->GetCarTypeName() << "에는 ";
 			ss << brakeSystem->GetBrakeSystemName() << " ";
 			ss << brakeSystem->GetComponentName() << " 사용 불가";
-			throw std::exception{ss.str().c_str()};
+			errMsg = ss.str();
 		}
 	}
 	else if (nullptr != std::dynamic_pointer_cast<Suv>(carType))
@@ -37,7 +39,7 @@ void CarRunner::ValidateCar()
 			ss << carType->GetCarTypeName() << "에는 ";
 			ss << engine->GetEngineName() << " ";
 			ss << engine->GetComponentName() << " 사용 불가";
-			throw std::exception{ ss.str().c_str() };
+			errMsg = ss.str();
 		}
 	}
 	else if (nullptr != std::dynamic_pointer_cast<Truck>(carType))
@@ -48,7 +50,7 @@ void CarRunner::ValidateCar()
 			ss << carType->GetCarTypeName() << "에는 ";
 			ss << engine->GetEngineName() << " ";
 			ss << engine->GetComponentName() << " 사용 불가";
-			throw std::exception{ ss.str().c_str() };
+			errMsg = ss.str();
 		}
 		else if (nullptr != std::dynamic_pointer_cast<MandoBrake>(brakeSystem))
 		{
@@ -56,7 +58,7 @@ void CarRunner::ValidateCar()
 			ss << carType->GetCarTypeName() << "에는 ";
 			ss << brakeSystem->GetBrakeSystemName() << " ";
 			ss << brakeSystem->GetComponentName() << " 사용 불가";
-			throw std::exception{ ss.str().c_str() };
+			errMsg = ss.str();
 		}
 	}
 
@@ -68,9 +70,12 @@ void CarRunner::ValidateCar()
 			ss << brakeSystem->GetBrakeSystemName() << "에는 ";
 			ss << steering->GetSteeringName() << " ";
 			ss << steering->GetComponentName() << " 이외 사용 불가";
-			throw std::exception{ ss.str().c_str() };
+			errMsg = ss.str();
 		}
 	}
+
+	if (false == errMsg.empty()) // for 100% coverage
+		throw std::exception{ errMsg.c_str() };
 }
 
 std::string CarRunner::RunCar()
@@ -86,7 +91,7 @@ std::string CarRunner::RunCar()
 	{
 		runResultStringStream << "Car Type : " << _car->car_type()->GetCarTypeName() << "\n";
 		runResultStringStream << "Engine : " << _car->engine()->GetEngineName() << "\n";
-		runResultStringStream << "Brake System  : " << _car->brake_system()->GetBrakeSystemName() << "\n";
+		runResultStringStream << "Brake System : " << _car->brake_system()->GetBrakeSystemName() << "\n";
 		runResultStringStream << "SteeringSystem : " << _car->steering()->GetSteeringName() << "\n";
 		runResultStringStream << "자동차가 동작됩니다." << "\n";
 	}

@@ -176,6 +176,7 @@
     <ClCompile Include="BrokenEngineTest.cpp" />
     <ClCompile Include="CarRunner.cpp" />
     <ClCompile Include="Car.cpp" />
+    <ClCompile Include="CarRunnerTest.cpp" />
     <ClCompile Include="CarTypeFactory.cpp" />
     <ClCompile Include="CarTypeFactoryTest.cpp" />
     <ClCompile Include="ContinentalBrake.cpp" />
