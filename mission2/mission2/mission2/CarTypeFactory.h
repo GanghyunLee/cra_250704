@@ -2,7 +2,7 @@
 #include <memory>
 #include "AbstractCarType.h"
 
-enum class CarType : uint8_t
+enum CarType
 {
     SEDAN = 1,
     SUV,
@@ -15,6 +15,6 @@ public:
 	CarTypeFactory() = delete;
 
 public:
-	std::shared_ptr<AbstractCarType> CreateCarType(CarType carType);
+	static std::shared_ptr<AbstractCarType> CreateCarType(CarType carType);
 };
 
