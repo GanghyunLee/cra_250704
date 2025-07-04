@@ -124,10 +124,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="defines.h" />
+    <ClInclude Include="AbstractCarType.h" />
+    <ClInclude Include="ICarComponent.h" />
+    <ClInclude Include="Sedan.h" />
+    <ClInclude Include="Suv.h" />
+    <ClInclude Include="Truck.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="assemble.cpp" />
+    <ClCompile Include="AbstractCarType.cpp" />
+    <ClCompile Include="ICarComponent.cpp" />
+    <ClCompile Include="Sedan.cpp" />
+    <ClCompile Include="Suv.cpp" />
+    <ClCompile Include="Truck.cpp" />
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
