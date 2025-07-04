@@ -69,7 +69,7 @@ void CarRunner::ValidateCar()
 			std::stringstream ss;
 			ss << brakeSystem->GetBrakeSystemName() << "에는 ";
 			ss << steering->GetSteeringName() << " ";
-			ss << steering->GetComponentName() << " 이외 사용 불가";
+			ss << "BOSCH 이외 사용 불가";
 			errMsg = ss.str();
 		}
 	}

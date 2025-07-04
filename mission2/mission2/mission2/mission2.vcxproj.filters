@@ -7,21 +7,233 @@
     <Filter Include="Utils">
       <UniqueIdentifier>{e255c1a8-d211-4768-867c-97d7dbe0f701}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Car">
+      <UniqueIdentifier>{eaa05e63-94e4-4b71-990d-d5f54be788ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Car\Brake">
+      <UniqueIdentifier>{241134c8-8e3d-4340-96af-0e6167f6bb93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Car\CarType">
+      <UniqueIdentifier>{d12c13f7-e0b0-4296-8525-5085890a1b66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Car\Engine">
+      <UniqueIdentifier>{608c14fd-f31f-4c8c-bf98-7fdb85492f6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Car\Steering">
+      <UniqueIdentifier>{ee4edb39-4f32-4105-bedf-1ebcbee8d44a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="defines.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="utils.h">
-      <Filter>Utils</Filter>
+    <ClInclude Include="AbstractBrakeSystem.h">
+      <Filter>Car\Brake</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractCarType.h">
+      <Filter>Car\CarType</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractEngine.h">
+      <Filter>Car\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractSteering.h">
+      <Filter>Car\Steering</Filter>
+    </ClInclude>
+    <ClInclude Include="BoschBrake.h">
+      <Filter>Car\Brake</Filter>
+    </ClInclude>
+    <ClInclude Include="BoschSteering.h">
+      <Filter>Car\Steering</Filter>
+    </ClInclude>
+    <ClInclude Include="BrakeSystemFactory.h">
+      <Filter>Car\Brake</Filter>
+    </ClInclude>
+    <ClInclude Include="BrokenEngine.h">
+      <Filter>Car\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Car.h">
+      <Filter>Car</Filter>
+    </ClInclude>
+    <ClInclude Include="CarRunner.h">
+      <Filter>Car</Filter>
+    </ClInclude>
+    <ClInclude Include="CarTypeFactory.h">
+      <Filter>Car\CarType</Filter>
+    </ClInclude>
+    <ClInclude Include="ContinentalBrake.h">
+      <Filter>Car\Brake</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineFactory.h">
+      <Filter>Car\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="GmEngine.h">
+      <Filter>Car\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="ICarComponent.h">
+      <Filter>Car</Filter>
+    </ClInclude>
+    <ClInclude Include="MandoBrake.h">
+      <Filter>Car\Brake</Filter>
+    </ClInclude>
+    <ClInclude Include="MobisSteering.h">
+      <Filter>Car\Steering</Filter>
+    </ClInclude>
+    <ClInclude Include="Sedan.h">
+      <Filter>Car\CarType</Filter>
+    </ClInclude>
+    <ClInclude Include="SteeringSystemFactory.h">
+      <Filter>Car\Steering</Filter>
+    </ClInclude>
+    <ClInclude Include="Suv.h">
+      <Filter>Car\CarType</Filter>
+    </ClInclude>
+    <ClInclude Include="ToyotaEngine.h">
+      <Filter>Car\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Truck.h">
+      <Filter>Car\CarType</Filter>
+    </ClInclude>
+    <ClInclude Include="WiaEngine.h">
+      <Filter>Car\Engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="utils.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
     <ClCompile Include="assemble.cpp">
       <Filter>App</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gtest\gtest-all.cc" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\lib\native\src\gmock\gmock-all.cc" />
+    <ClCompile Include="AbstractBrakeSystem.cpp">
+      <Filter>Car\Brake</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractBrakeSystemTest.cpp">
+      <Filter>Car\Brake</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractCarType.cpp">
+      <Filter>Car\CarType</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractCarTypeTest.cpp">
+      <Filter>Car\CarType</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractEngine.cpp">
+      <Filter>Car\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractEngineTest.cpp">
+      <Filter>Car\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractSteering.cpp">
+      <Filter>Car\Steering</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractSteeringTest.cpp">
+      <Filter>Car\Steering</Filter>
+    </ClCompile>
+    <ClCompile Include="BoschBrake.cpp">
+      <Filter>Car\Brake</Filter>
+    </ClCompile>
+    <ClCompile Include="BoschBrakeTest.cpp">
+      <Filter>Car\Brake</Filter>
+    </ClCompile>
+    <ClCompile Include="BoschSteering.cpp">
+      <Filter>Car\Steering</Filter>
+    </ClCompile>
+    <ClCompile Include="BoschSteeringTest.cpp">
+      <Filter>Car\Steering</Filter>
+    </ClCompile>
+    <ClCompile Include="BrakeSystemFactory.cpp">
+      <Filter>Car\Brake</Filter>
+    </ClCompile>
+    <ClCompile Include="BrakeSystemFactoryTest.cpp">
+      <Filter>Car\Brake</Filter>
+    </ClCompile>
+    <ClCompile Include="BrokenEngine.cpp">
+      <Filter>Car\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="BrokenEngineTest.cpp">
+      <Filter>Car\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Car.cpp">
+      <Filter>Car</Filter>
+    </ClCompile>
+    <ClCompile Include="CarRunner.cpp">
+      <Filter>Car</Filter>
+    </ClCompile>
+    <ClCompile Include="CarRunnerTest.cpp">
+      <Filter>Car</Filter>
+    </ClCompile>
+    <ClCompile Include="CarTypeFactory.cpp">
+      <Filter>Car\CarType</Filter>
+    </ClCompile>
+    <ClCompile Include="CarTypeFactoryTest.cpp">
+      <Filter>Car\CarType</Filter>
+    </ClCompile>
+    <ClCompile Include="ContinentalBrake.cpp">
+      <Filter>Car\Brake</Filter>
+    </ClCompile>
+    <ClCompile Include="ContinentalBrakeTest.cpp">
+      <Filter>Car\Brake</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineFactory.cpp">
+      <Filter>Car\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineFactoryTest.cpp">
+      <Filter>Car\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="GmEngine.cpp">
+      <Filter>Car\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="GmEngineTest.cpp">
+      <Filter>Car\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="ICarComponent.cpp">
+      <Filter>Car</Filter>
+    </ClCompile>
+    <ClCompile Include="MandoBrake.cpp">
+      <Filter>Car\Brake</Filter>
+    </ClCompile>
+    <ClCompile Include="MandoBrakeTest.cpp">
+      <Filter>Car\Brake</Filter>
+    </ClCompile>
+    <ClCompile Include="MobisSteering.cpp">
+      <Filter>Car\Steering</Filter>
+    </ClCompile>
+    <ClCompile Include="MobisSteeringTest.cpp">
+      <Filter>Car\Steering</Filter>
+    </ClCompile>
+    <ClCompile Include="Sedan.cpp">
+      <Filter>Car\CarType</Filter>
+    </ClCompile>
+    <ClCompile Include="SedanTest.cpp">
+      <Filter>Car\CarType</Filter>
+    </ClCompile>
+    <ClCompile Include="SteeringSystemFactory.cpp">
+      <Filter>Car\Steering</Filter>
+    </ClCompile>
+    <ClCompile Include="SteeringSystemFactoryTest.cpp">
+      <Filter>Car\Steering</Filter>
+    </ClCompile>
+    <ClCompile Include="Suv.cpp">
+      <Filter>Car\CarType</Filter>
+    </ClCompile>
+    <ClCompile Include="SuvTest.cpp">
+      <Filter>Car\CarType</Filter>
+    </ClCompile>
+    <ClCompile Include="ToyotaEngine.cpp">
+      <Filter>Car\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="ToyotaEngineTest.cpp">
+      <Filter>Car\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="TruckTest.cpp">
+      <Filter>Car\CarType</Filter>
+    </ClCompile>
+    <ClCompile Include="Truck.cpp">
+      <Filter>Car\CarType</Filter>
+    </ClCompile>
+    <ClCompile Include="WiaEngine.cpp">
+      <Filter>Car\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="WiaEngineTest.cpp">
+      <Filter>Car\Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
