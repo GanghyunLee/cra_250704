@@ -18,13 +18,6 @@ enum QuestionType
     Run_Test,
 };
 
-enum CarType
-{
-    SEDAN = 1,
-    SUV,
-    TRUCK,
-};
-
 enum Engine
 {
     GM = 1,

@@ -129,6 +129,7 @@
     <ClInclude Include="BoschBrake.h" />
     <ClInclude Include="BoschSteering.h" />
     <ClInclude Include="BrokenEngine.h" />
+    <ClInclude Include="CarTypeFactory.h" />
     <ClInclude Include="ContinentalBrake.h" />
     <ClInclude Include="defines.h" />
     <ClInclude Include="AbstractCarType.h" />
@@ -140,7 +141,6 @@
     <ClInclude Include="Suv.h" />
     <ClInclude Include="ToyotaEngine.h" />
     <ClInclude Include="Truck.h" />
-    <ClInclude Include="utils.h" />
     <ClInclude Include="WiaEngine.h" />
   </ItemGroup>
   <ItemGroup>
@@ -152,6 +152,7 @@
     <ClCompile Include="BoschBrake.cpp" />
     <ClCompile Include="BoschSteering.cpp" />
     <ClCompile Include="BrokenEngine.cpp" />
+    <ClCompile Include="CarTypeFactory.cpp" />
     <ClCompile Include="ContinentalBrake.cpp" />
     <ClCompile Include="GmEngine.cpp" />
     <ClCompile Include="ICarComponent.cpp" />
@@ -161,7 +162,6 @@
     <ClCompile Include="Suv.cpp" />
     <ClCompile Include="ToyotaEngine.cpp" />
     <ClCompile Include="Truck.cpp" />
-    <ClCompile Include="utils.cpp" />
     <ClCompile Include="WiaEngine.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -2,11 +2,10 @@
 #include <iosfwd>
 #include <sstream>
 
+#include "CarTypeFactory.h"
 #include "defines.h"
-#include "utils.h"
 
 #ifdef _DEBUG
-
 #include "gmock/gmock.h"
 
 int main()
@@ -33,6 +32,10 @@ void getUserInput(OUT char buf[100]);
 bool isExitString(const char* buf);
 void showMenu(QuestionType currentStep);
 bool tryParseNumber(const char* buf, OUT int& result);
+
+void clearConsole();
+void delay(int ms);
+void printLine();
 
 QuestionType processUserInput(QuestionType currentStep, int userInput);
 QuestionType processCarSelection(int userInput);
@@ -78,7 +81,7 @@ int main()
 
 void selectCarType(CarType answer)
 {
-    userInputList[CarType_Q] = answer;
+    userInputList[CarType_Q] = static_cast<int>(answer);
 
     printf("차량 타입으로 ");
     printf(generateCarString(answer));
@@ -113,19 +116,19 @@ int ValidateUserInputList()
     Engine userInputEngine = getCurrentUserInputEngine();                               
     SteeringSystem userInputSteeringSystem = getCurrentUserInputSteeringSystem();
 
-	if (userInputCarType == SEDAN)
+	if (userInputCarType == CarType::SEDAN)
     {
         if (userInputBrakeSystem == CONTINENTAL)
             return false;
     }
 
-	if (userInputCarType == SUV)
+	if (userInputCarType == CarType::SUV)
 	{
         if (userInputEngine == TOYOTA)
             return false;
 	}
 
-    if (userInputCarType == TRUCK)
+    if (userInputCarType == CarType::TRUCK)
     {
         if (userInputEngine == WIA)
             return false;
@@ -187,7 +190,7 @@ void testProducedCar()
     const SteeringSystem steering = getCurrentUserInputSteeringSystem();
 
     printf("자동차 부품 조합 테스트 결과 : ");
-    if (carType == SEDAN)
+    if (carType == CarType::SEDAN)
     {
         if (brake == BrakeSystem::CONTINENTAL)
         {
@@ -199,7 +202,7 @@ void testProducedCar()
             printf("제동장치 사용 불가\n");
         }
     }
-    else if (carType == SUV)
+    else if (carType == CarType::SUV)
     {
 	    if (engine == TOYOTA)
 	    {
@@ -211,7 +214,7 @@ void testProducedCar()
             printf("엔진 사용 불가\n");
 	    }
     }
-    else if (carType == TRUCK)
+    else if (carType == CarType::TRUCK)
     {
         if (engine == WIA)
         {
@@ -503,6 +506,31 @@ void getUserInput(OUT char buf[100])
     char* context = nullptr;
     strtok_s(buf, "\r", &context);
     strtok_s(buf, "\n", &context);
+}
+
+void clearConsole()
+{
+    printf(CLEAR_SCREEN);
+}
+
+void delay(int ms)
+{
+    volatile int sum = 0;
+    for (int i = 0; i < 1000; i++)
+    {
+        for (int j = 0; j < 1000; j++)
+        {
+            for (int t = 0; t < ms; t++)
+            {
+                sum++;
+            }
+        }
+    }
+}
+
+void printLine()
+{
+    printf("===============================\n");
 }
 
 #endif
