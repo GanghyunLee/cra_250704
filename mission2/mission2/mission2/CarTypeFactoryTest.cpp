@@ -19,6 +19,12 @@ TEST(CarTypeFactoryTest, GivenTruckCarType_ThenMustReturnTruckType)
 	EXPECT_NE(nullptr, std::dynamic_pointer_cast<Truck>(CarTypeFactory::CreateCarType(CarType::TRUCK)));
 }
 
+TEST(CarTypeFactoryTest, EnumeratesCatalogsTest)
+{
+	const std::string expected = "1. Sedan\n2. Suv\n3. Truck\n";
+	EXPECT_EQ(expected, CarTypeFactory::EnumeratesCatalogs());
+}
+
 TEST(CarTypeFactoryTest, GivenInvalidCarType_ThenMustReturnNullPtr)
 {
 	EXPECT_EQ(nullptr, CarTypeFactory::CreateCarType(static_cast<CarType>(0)));

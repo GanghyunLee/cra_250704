@@ -19,6 +19,12 @@ TEST(BrakeSystemFactoryTest, GivenBoscheBrakeType_ThenMustReturnBoscheBrakeType)
 	EXPECT_NE(nullptr, std::dynamic_pointer_cast<BoschBrake>(BrakeSystemFactory::CreateBrakeSystem(BrakeSystem::BOSCH_B)));
 }
 
+TEST(BrakeSystemFactoryTest, EnumeratesCatalogsTest)
+{
+	const std::string expected = "1. MANDO\n2. CONTINENTAL\n3. BOSCH\n";
+	EXPECT_EQ(expected, BrakeSystemFactory::EnumeratesCatalogs());
+}
+
 TEST(BrakeSystemFactoryTest, GivenInvalidCarType_ThenMustReturnNullPtr)
 {
 	EXPECT_EQ(nullptr, BrakeSystemFactory::CreateBrakeSystem(static_cast<BrakeSystem>(0)));

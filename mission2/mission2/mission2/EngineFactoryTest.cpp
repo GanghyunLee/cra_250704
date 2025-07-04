@@ -1,4 +1,4 @@
-#include <gtest/gtest.h>
+﻿#include <gtest/gtest.h>
 
 #include "BrokenEngine.h"
 #include "EngineFactory.h"
@@ -24,6 +24,12 @@ TEST(EngineFactoryTest, GivenWiaEngineType_ThenMustReturnWiaEngineType)
 TEST(EngineFactoryTest, GivenBrokenEngineType_ThenMustReturnBrokenEngineType)
 {
 	EXPECT_NE(nullptr, std::dynamic_pointer_cast<BrokenEngine>(EngineFactory::CreateEngine(Engine::BROKEN)));
+}
+
+TEST(EngineFactoryTest, EnumeratesCatalogsTest)
+{
+	const std::string expected = "1. GM\n2. TOYOTA\n3. WIA\n4. 고장난 엔진\n";
+	EXPECT_EQ(expected, EngineFactory::EnumeratesCatalogs());
 }
 
 TEST(EngineFactoryTest, GivenInvalidCarType_ThenMustReturnNullPtr)
