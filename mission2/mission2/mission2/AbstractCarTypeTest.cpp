@@ -13,6 +13,7 @@ public:
 TEST(AbstractCarTypeTest, CarTypeComponentNameTest)
 {
 	TestCarType testCarType{};
+	testCarType.GetCarTypeName(); // to touch mock method
 
 	EXPECT_EQ("차량 타입", testCarType.GetComponentName());
 }

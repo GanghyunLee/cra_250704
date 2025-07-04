@@ -26,13 +26,6 @@ enum Engine
     BROKEN,
 };
 
-enum BrakeSystem
-{
-    MANDO = 1,
-    CONTINENTAL,
-    BOSCH_B,
-};
-
 enum SteeringSystem
 {
     BOSCH_S = 1,
