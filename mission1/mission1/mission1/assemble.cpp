@@ -1,4 +1,7 @@
-﻿#ifdef _DEBUG
+﻿#include "defines.h"
+#include "utils.h"
+
+#ifdef _DEBUG
 
 #include "gmock/gmock.h"
 
@@ -10,12 +13,6 @@ int main()
 
 #else
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-
-#define CLEAR_SCREEN "\033[H\033[2J"
-
 int stack[10];
 
 void selectCarType(int answer);
@@ -24,58 +21,7 @@ void selectbrakeSystem(int answer);
 void selectSteeringSystem(int answer);
 void runProducedCar();
 void testProducedCar();
-void delay(int ms);
-
-enum QuestionType
-{
-    CarType_Q,
-    Engine_Q,
-    brakeSystem_Q,
-    SteeringSystem_Q,
-    Run_Test,
-};
-
-enum CarType
-{
-    SEDAN = 1,
-    SUV,
-    TRUCK
-};
-
-enum Engine
-{
-    GM = 1,
-    TOYOTA,
-    WIA
-};
-
-enum brakeSystem
-{
-    MANDO = 1,
-    CONTINENTAL,
-    BOSCH_B
-};
-
-enum SteeringSystem
-{
-    BOSCH_S = 1,
-    MOBIS
-};
-
-void delay(int ms)
-{
-    volatile int sum = 0;
-    for (int i = 0; i < 1000; i++)
-    {
-        for (int j = 0; j < 1000; j++)
-        {
-            for (int t = 0; t < ms; t++)
-            {
-                sum++;
-            }
-        }
-    }
-}
+void printCarLogo();
 
 int main()
 {
@@ -84,17 +30,11 @@ int main()
 
     while (1)
     {
-
         if (step == CarType_Q)
         {
-            printf(CLEAR_SCREEN);
-
-            printf("        ______________\n");
-            printf("       /|            | \n");
-            printf("  ____/_|_____________|____\n");
-            printf(" |                      O  |\n");
-            printf(" '-(@)----------------(@)--'\n");
-            printf("===============================\n");
+            clearConsole();
+            printCarLogo();
+            printLine();
             printf("어떤 차량 타입을 선택할까요?\n");
             printf("1. Sedan\n");
             printf("2. SUV\n");
@@ -102,7 +42,7 @@ int main()
         }
         else if (step == Engine_Q)
         {
-            printf(CLEAR_SCREEN);
+            clearConsole();
             printf("어떤 엔진을 탑재할까요?\n");
             printf("0. 뒤로가기\n");
             printf("1. GM\n");
@@ -112,7 +52,7 @@ int main()
         }
         else if (step == brakeSystem_Q)
         {
-            printf(CLEAR_SCREEN);
+            clearConsole();
             printf("어떤 제동장치를 선택할까요?\n");
             printf("0. 뒤로가기\n");
             printf("1. MANDO\n");
@@ -121,7 +61,7 @@ int main()
         }
         else if (step == SteeringSystem_Q)
         {
-            printf(CLEAR_SCREEN);
+            clearConsole();
             printf("어떤 조향장치를 선택할까요?\n");
             printf("0. 뒤로가기\n");
             printf("1. BOSCH\n");
@@ -129,22 +69,16 @@ int main()
         }
         else if (step == Run_Test)
         {
-            printf(CLEAR_SCREEN);
+            clearConsole();
             printf("멋진 차량이 완성되었습니다.\n");
             printf("어떤 동작을 할까요?\n");
             printf("0. 처음 화면으로 돌아가기\n");
             printf("1. RUN\n");
             printf("2. Test\n");
         }
-        printf("===============================\n");
 
-        printf("INPUT > ");
-        fgets(buf, sizeof(buf), stdin);
-
-        // 엔터 개행문자 제거
-        char *context = nullptr;
-        strtok_s(buf, "\r", &context);
-        strtok_s(buf, "\n", &context);
+        printLine();
+        getUserInput(OUT buf);
 
         if (!strcmp(buf, "exit"))
         {
@@ -397,6 +331,15 @@ void testProducedCar()
     {
         printf("자동차 부품 조합 테스트 결과 : PASS\n");
     }
+}
+
+void printCarLogo()
+{
+    printf("        ______________\n");
+    printf("       /|            | \n");
+    printf("  ____/_|_____________|____\n");
+    printf(" |                      O  |\n");
+    printf(" '-(@)----------------(@)--'\n");
 }
 
 #endif
