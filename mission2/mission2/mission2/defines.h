@@ -18,14 +18,6 @@ enum QuestionType
     Run_Test,
 };
 
-enum Engine
-{
-    GM = 1,
-    TOYOTA,
-    WIA,
-    BROKEN,
-};
-
 enum SteeringSystem
 {
     BOSCH_S = 1,

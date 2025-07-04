@@ -2,17 +2,17 @@
 #include <gtest/gtest.h>
 #include "AbstractBrakeSystem.h"
 
-class TestBrakeSystem : public AbstractBrakeSystem
+class TestBrake : public AbstractBrakeSystem
 {
 public:
-	~TestBrakeSystem() override = default;
+	~TestBrake() override = default;
 
 	MOCK_METHOD(std::string, GetBrakeSystemName, (), (override));
 };
 
 TEST(AbstractBrakeSystemTest, CarTypeComponentNameTest)
 {
-	TestBrakeSystem testBrakeSystem{};
+	TestBrake testBrakeSystem{};
 	testBrakeSystem.GetBrakeSystemName(); // to touch mock method
 
 	EXPECT_EQ("제동장치", testBrakeSystem.GetComponentName());

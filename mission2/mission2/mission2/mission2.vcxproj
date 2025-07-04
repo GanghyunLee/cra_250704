@@ -142,6 +142,7 @@
     <ClInclude Include="ContinentalBrake.h" />
     <ClInclude Include="defines.h" />
     <ClInclude Include="AbstractCarType.h" />
+    <ClInclude Include="EngineFactory.h" />
     <ClInclude Include="GmEngine.h" />
     <ClInclude Include="ICarComponent.h" />
     <ClInclude Include="MandoBrake.h" />
@@ -157,6 +158,7 @@
     <ClCompile Include="AbstractBrakeSystemTest.cpp" />
     <ClCompile Include="AbstractCarTypeTest.cpp" />
     <ClCompile Include="AbstractEngine.cpp" />
+    <ClCompile Include="AbstractEngineTest.cpp" />
     <ClCompile Include="AbstractSteering.cpp" />
     <ClCompile Include="assemble.cpp" />
     <ClCompile Include="AbstractCarType.cpp" />
@@ -166,11 +168,15 @@
     <ClCompile Include="BrakeSystemFactory.cpp" />
     <ClCompile Include="BrakeSystemFactoryTest.cpp" />
     <ClCompile Include="BrokenEngine.cpp" />
+    <ClCompile Include="BrokenEngineTest.cpp" />
     <ClCompile Include="CarTypeFactory.cpp" />
     <ClCompile Include="CarTypeFactoryTest.cpp" />
     <ClCompile Include="ContinentalBrake.cpp" />
     <ClCompile Include="ContinentalBrakeTest.cpp" />
+    <ClCompile Include="EngineFactory.cpp" />
+    <ClCompile Include="EngineFactoryTest.cpp" />
     <ClCompile Include="GmEngine.cpp" />
+    <ClCompile Include="GmEngineTest.cpp" />
     <ClCompile Include="ICarComponent.cpp" />
     <ClCompile Include="MandoBrake.cpp" />
     <ClCompile Include="MandoBrakeTest.cpp" />
@@ -180,9 +186,11 @@
     <ClCompile Include="Suv.cpp" />
     <ClCompile Include="SuvTest.cpp" />
     <ClCompile Include="ToyotaEngine.cpp" />
+    <ClCompile Include="ToyotaEngineTest.cpp" />
     <ClCompile Include="Truck.cpp" />
     <ClCompile Include="TruckTest.cpp" />
     <ClCompile Include="WiaEngine.cpp" />
+    <ClCompile Include="WiaEngineTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
