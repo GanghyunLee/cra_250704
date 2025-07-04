@@ -7,7 +7,6 @@ public:
 	~Sedan() override = default;
 
 public:
-
 	std::string GetCarTypeName() override { return "Sedan";  }
 };
 

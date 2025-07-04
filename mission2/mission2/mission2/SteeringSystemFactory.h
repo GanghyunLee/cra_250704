@@ -15,5 +15,10 @@ public:
 
 public:
     static std::shared_ptr<AbstractSteering> CreateSteering(SteeringSystem steering);
+
+    static bool ValidateUserInputIndex(int steeringNumber) { return steeringNumber >= GetMinInput() && steeringNumber <= GetMaxInput(); }
+
+    static int GetMinInput() { return BOSCH_S; }
+    static int GetMaxInput() { return MOBIS; }
 };
 

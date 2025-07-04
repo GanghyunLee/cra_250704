@@ -2,8 +2,12 @@
 #include <iosfwd>
 #include <sstream>
 
+#include "BrakeSystemFactory.h"
+#include "CarRunner.h"
 #include "CarTypeFactory.h"
 #include "defines.h"
+#include "EngineFactory.h"
+#include "SteeringSystemFactory.h"
 
 #ifdef _DEBUG
 #include "gmock/gmock.h"
@@ -16,15 +20,37 @@ int main()
 
 #else
 
-int userInputList[10];
+enum QuestionType
+{
+    CarType_Q,
+    Engine_Q,
+    BrakeSystem_Q,
+    SteeringSystem_Q,
+    Run_Test,
+};
+
+enum RunMode
+{
+    Run = 1,
+    Test = 2,
+};
+
+struct SelectedValueDto
+{
+    std::shared_ptr<AbstractCarType> selectedCarType = nullptr;
+    std::shared_ptr<AbstractBrakeSystem> selectedBrakeSystem = nullptr;
+    std::shared_ptr<AbstractEngine> selectedEngine = nullptr;
+    std::shared_ptr<AbstractSteering> selectedSteering = nullptr;
+};
+SelectedValueDto selectedValueDto{};
 
 void selectCarType(CarType answer);
 void selectEngine(Engine engine);
 void selectbrakeSystem(BrakeSystem brake);
 void selectSteeringSystem(SteeringSystem steering);
 
-void runProducedCar();
-void testProducedCar();
+void runProducedCar(std::shared_ptr<Car> car);
+void testProducedCar(std::shared_ptr<Car> car);
 void printCarLogo();
 void printError(const char* msg);
 
@@ -38,19 +64,7 @@ void delay(int ms);
 void printLine();
 
 QuestionType processUserInput(QuestionType currentStep, int userInput);
-QuestionType processCarSelection(int userInput);
-
-const char* generateCarString(CarType carType);
-const char* generateEngineString(Engine engine);
-const char* generateBrakeString(BrakeSystem brake);
-const char* generateSteeringString(SteeringSystem steering);
-
 const char* generatePassFailString(bool result);
-
-CarType getCurrentUserInputCarType() { return static_cast<CarType>(userInputList[CarType_Q]); }
-BrakeSystem getCurrentUserInputBrakeSystem() { return static_cast<BrakeSystem>(userInputList[BrakeSystem_Q]); }
-Engine getCurrentUserInputEngine() { return static_cast<Engine>(userInputList[Engine_Q]); }
-SteeringSystem getCurrentUserInputSteeringSystem() { return static_cast<SteeringSystem>(userInputList[SteeringSystem_Q]); }
 
 int main()
 {
@@ -79,177 +93,186 @@ int main()
     }
 }
 
-void selectCarType(CarType answer)
+QuestionType processUserInput(QuestionType currentStep, int userInput)
 {
-    userInputList[CarType_Q] = static_cast<int>(answer);
+    if (userInput == 0)
+    {
+        // 처음으로 돌아가기
+        if (currentStep == Run_Test)
+            return CarType_Q;
+        else
+        {
+            // 이전으로 돌아가기
+            return static_cast<QuestionType>(static_cast<int>(currentStep) - 1);
+        }
+    }
 
-    printf("차량 타입으로 ");
-    printf(generateCarString(answer));
-    printf("을 선택하셨습니다.\n");
+    std::stringstream ss;
+    if (currentStep == CarType_Q)
+    {
+        if (false == CarTypeFactory::ValidateUserInputIndex(userInput))
+        {
+            std::stringstream ss;
+            ss << "차량 타입은 " << CarTypeFactory::GetMinInput() << " ~ " << CarTypeFactory::GetMaxInput()
+                << " 범위만 선택 가능\n";
+            printError(ss.str().c_str());
+            return currentStep;
+        }
+
+        selectCarType(static_cast<CarType>(userInput));
+    	delay(800);
+        return Engine_Q;
+    }
+    else if (currentStep == Engine_Q)
+    {
+        if (false == EngineFactory::ValidateUserInputIndex(userInput))
+        {
+            ss << "엔진은 " << EngineFactory::GetMinInput() << " ~ " << EngineFactory::GetMaxInput();
+            ss << " 범위만 선택 가능\n";
+            printError(ss.str().c_str());
+            return currentStep;
+        }
+
+        selectEngine(static_cast<Engine>(userInput));
+        delay(800);
+        return BrakeSystem_Q;
+    }
+    else if (currentStep == BrakeSystem_Q)
+    {
+        if (false == BrakeSystemFactory::ValidateUserInputIndex(userInput))
+        {
+            std::stringstream ss;
+            ss << "제동장치는 " << BrakeSystemFactory::GetMinInput() << " ~ " << BrakeSystemFactory::GetMaxInput()
+                << " 범위만 선택 가능\n";
+            printError(ss.str().c_str());
+            return currentStep;
+        }
+
+        selectbrakeSystem(static_cast<BrakeSystem>(userInput));
+        delay(800);
+        return SteeringSystem_Q;
+    }
+    else if (currentStep == SteeringSystem_Q)
+    {
+        if (false == SteeringSystemFactory::ValidateUserInputIndex(userInput))
+        {
+            ss << "조향장치는 " << SteeringSystemFactory::GetMinInput() << " ~ " << SteeringSystemFactory::GetMaxInput();
+            ss << " 범위만 선택 가능\n";
+            printError(ss.str().c_str());
+            return currentStep;
+        }
+
+        selectSteeringSystem(static_cast<SteeringSystem>(userInput));
+        delay(800);
+        return Run_Test;
+    }
+
+    else if (currentStep == Run_Test)
+    {
+        std::shared_ptr<Car> car = std::make_shared<Car>(
+            selectedValueDto.selectedCarType,
+            selectedValueDto.selectedBrakeSystem,
+            selectedValueDto.selectedEngine,
+            selectedValueDto.selectedSteering
+        );
+
+        if (userInput == RunMode::Run)
+        {
+            runProducedCar(car);
+            delay(2000);
+        }
+        else if (userInput == RunMode::Test)
+        {
+            printf("Test...\n");
+            delay(1500);
+            testProducedCar(car);
+            delay(2000);
+        }
+        else
+        {
+            printError("Run 또는 Test 중 하나를 선택 필요\n");
+        }
+
+        return currentStep;
+    }
+
+    return currentStep;
 }
 
-void selectEngine(Engine engine)
+
+void selectCarType(CarType answer)
 {
-    userInputList[Engine_Q] = engine;
-    printf(generateEngineString(engine));
-    printf("을 선택하셨습니다.\n");
+    selectedValueDto.selectedCarType = CarTypeFactory::CreateCarType(answer);
+
+    std::stringstream ss;
+    ss << selectedValueDto.selectedCarType->GetComponentName() << "으로 " <<
+        selectedValueDto.selectedCarType->GetCarTypeName() << "을 선택하셨습니다.\n";
+    printf(ss.str().c_str());
+}
+
+void selectEngine(Engine answer)
+{
+    selectedValueDto.selectedEngine = EngineFactory::CreateEngine(answer);
+
+    std::stringstream ss;
+    ss << selectedValueDto.selectedEngine->GetComponentName() << "을 선택하셨습니다.\n";
+    printf(ss.str().c_str());
 }
 
 void selectbrakeSystem(BrakeSystem brake)
 {
-    userInputList[BrakeSystem_Q] = brake;
-    printf(generateBrakeString(brake));
-    printf(" 제동장치를 선택하셨습니다.\n");
+    selectedValueDto.selectedBrakeSystem = BrakeSystemFactory::CreateBrakeSystem(brake);
+
+    std::stringstream ss;
+    ss << selectedValueDto.selectedBrakeSystem->GetBrakeSystemName() << " "
+        << selectedValueDto.selectedBrakeSystem->GetComponentName() << "를 선택하셨습니다.\n";
+    printf(ss.str().c_str());
 }
 
 void selectSteeringSystem(SteeringSystem steering)
 {
-    userInputList[SteeringSystem_Q] = steering;
-    printf(generateSteeringString(steering));
-    printf(" 조향장치를 선택하셨습니다.\n");
+    selectedValueDto.selectedSteering = SteeringSystemFactory::CreateSteering(steering);
+
+    std::stringstream ss;
+    ss << selectedValueDto.selectedSteering->GetSteeringName() << " "
+        << selectedValueDto.selectedSteering->GetComponentName() << "를 선택하셨습니다.\n";
+    printf(ss.str().c_str());
 }
 
-int ValidateUserInputList()
+void runProducedCar(std::shared_ptr<Car> car)
 {
-    CarType userInputCarType = getCurrentUserInputCarType();                            
-    BrakeSystem userInputBrakeSystem = getCurrentUserInputBrakeSystem();                
-    Engine userInputEngine = getCurrentUserInputEngine();                               
-    SteeringSystem userInputSteeringSystem = getCurrentUserInputSteeringSystem();
+    CarRunner carRunner{car};
 
-	if (userInputCarType == CarType::SEDAN)
+    try
     {
-        if (userInputBrakeSystem == CONTINENTAL)
-            return false;
+        carRunner.ValidateCar();
+        printf(carRunner.RunCar().c_str());
     }
-
-	if (userInputCarType == CarType::SUV)
-	{
-        if (userInputEngine == TOYOTA)
-            return false;
-	}
-
-    if (userInputCarType == CarType::TRUCK)
-    {
-        if (userInputEngine == WIA)
-            return false;
-
-        if (userInputBrakeSystem == MANDO)
-            return false;
-    }
-
-    if (userInputBrakeSystem == BOSCH_B)
-    {
-        if (userInputSteeringSystem != BOSCH_S)
-            return false;
-    }
-    
-    return true;
-}
-
-void runProducedCar()
-{
-    if (ValidateUserInputList() == false)
+    catch (const std::exception& e)
     {
         printf("자동차가 동작되지 않습니다\n");
     }
-    else
-    {
-        if (getCurrentUserInputEngine() == Engine::BROKEN)
-        {
-            printf("엔진이 고장나있습니다.\n");
-            printf("자동차가 움직이지 않습니다.\n");
-        }
-        else
-        {
-            printf("Car Type : ");
-            printf(generateCarString(getCurrentUserInputCarType()));
-            printf("\n");
-
-            printf("Engine : ");
-            printf(generateEngineString(getCurrentUserInputEngine()));
-            printf("\n");
-
-            printf("Brake System  : ");
-            printf(generateBrakeString(getCurrentUserInputBrakeSystem()));
-            printf("\n");
-
-            printf("SteeringSystem  : ");
-            printf(generateSteeringString(getCurrentUserInputSteeringSystem()));
-            printf("\n");
-
-            printf("자동차가 동작됩니다.\n");
-        }
-    }
 }
 
-void testProducedCar()
+void testProducedCar(std::shared_ptr<Car> car)
 {
-    const CarType carType = getCurrentUserInputCarType();
-    const BrakeSystem brake = getCurrentUserInputBrakeSystem();
-    const Engine engine = getCurrentUserInputEngine();
-    const SteeringSystem steering = getCurrentUserInputSteeringSystem();
+    CarRunner carRunner{ car };
 
-    printf("자동차 부품 조합 테스트 결과 : ");
-    if (carType == CarType::SEDAN)
+    try
     {
-        if (brake == BrakeSystem::CONTINENTAL)
-        {
-            generatePassFailString(false);
-            printf("\n");
-            printf(generateCarString(carType));
-            printf("에는 ");
-            printf(generateBrakeString(brake));
-            printf("제동장치 사용 불가\n");
-        }
-    }
-    else if (carType == CarType::SUV)
-    {
-	    if (engine == TOYOTA)
-	    {
-            generatePassFailString(false);
-            printf("\n");
-            printf(generateCarString(carType));
-            printf("에는 ");
-            printf(generateEngineString(engine));
-            printf("엔진 사용 불가\n");
-	    }
-    }
-    else if (carType == CarType::TRUCK)
-    {
-        if (engine == WIA)
-        {
-            generatePassFailString(false);
-            printf("\n");
-            printf(generateCarString(carType));
-            printf("에는 ");
-            printf(generateEngineString(engine));
-            printf("엔진 사용 불가\n");
-        }
-        else if (brake == MANDO)
-        {
-            generatePassFailString(false);
-            printf("\n");
-            printf(generateCarString(carType));
-            printf("에는 ");
-            printf(generateEngineString(engine));
-            printf("제동장치 사용 불가\n");
-        }
-    }
+        printf("자동차 부품 조합 테스트 결과 : ");
+        carRunner.ValidateCar();
 
-    else if (brake == BOSCH_B && steering != BOSCH_S)
-    {
-        generatePassFailString(false);
-        printf("\n");
-        printf(generateBrakeString(brake));
-        printf("에는 ");
-        printf(generateSteeringString(steering));
-        printf("조향장치 이외 사용 불가\n");
+        printf(generatePassFailString(true));
     }
-    else
+    catch (const std::exception& e)
     {
-        generatePassFailString(true);
+        printf(generatePassFailString(false));
         printf("\n");
+        printf(e.what());
+        
     }
+    printf("\n");
 }
 
 void printCarLogo()
@@ -261,10 +284,10 @@ void printCarLogo()
     printf(" '-(@)----------------(@)--'\n");
 }
 
-void printError(const char* msg)
+void printError(std::string& msg)
 {
     printf("ERROR :: ");
-    printf(msg);
+    printf(msg.c_str());
     delay(800);
 }
 
@@ -329,169 +352,6 @@ bool tryParseNumber(const char* buf, OUT int& result)
     return *ptrForCheckNumber == '\0'; // 숫자여야 한다.
 }
 
-QuestionType processUserInput(QuestionType currentStep, int userInput)
-{
-    const int MIN_USER_INPUT = 1;
-    const int MAX_CAR_TYPE_INPUT = 3;
-    const int MAX_ENGINE_INPUT = 4;
-    const int MAX_BRAKE_INPUT = 3;
-    const int MAX_STEERING_INPUT = 2;
-
-    if (userInput == 0)
-    {
-        // 처음으로 돌아가기
-        if (currentStep == Run_Test)
-			return CarType_Q;
-        else
-        {
-            // 이전으로 돌아가기
-            return static_cast<QuestionType>(static_cast<int>(currentStep) - 1);
-        }
-    }
-
-    std::stringstream ss;
-    if (currentStep == CarType_Q)
-    {
-        if (!(userInput >= MIN_USER_INPUT && userInput <= MAX_CAR_TYPE_INPUT))
-        {
-            std::stringstream ss;
-            ss << "차량 타입은 " << MIN_USER_INPUT << " ~ " << MAX_CAR_TYPE_INPUT;
-            ss << " 범위만 선택 가능\n";
-            printError(ss.str().c_str());
-            return currentStep;
-        }
-
-        selectCarType(static_cast<CarType>(userInput));
-        delay(800);
-        return Engine_Q;
-    }
-    else if (currentStep == Engine_Q)
-    {
-        if (!(userInput >= MIN_USER_INPUT && userInput <= MAX_ENGINE_INPUT))
-        {
-            ss << "엔진은 " << MIN_USER_INPUT << " ~ " << MAX_ENGINE_INPUT;
-            ss << " 범위만 선택 가능\n";
-            printError(ss.str().c_str());
-            return currentStep;
-        }
-
-        selectEngine(static_cast<Engine>(userInput));
-        delay(800);
-        return BrakeSystem_Q;
-    }
-    else if (currentStep == BrakeSystem_Q)
-    {
-        if (!(userInput >= MIN_USER_INPUT && userInput <= MAX_BRAKE_INPUT))
-        {
-            ss << "제동장치는 " << MIN_USER_INPUT << " ~ " << MAX_BRAKE_INPUT;
-            ss << " 범위만 선택 가능\n";
-            printError(ss.str().c_str());
-            return currentStep;
-        }
-
-        selectbrakeSystem(static_cast<BrakeSystem>(userInput));
-        delay(800);
-        return SteeringSystem_Q;
-    }
-    else if (currentStep == SteeringSystem_Q)
-    {
-        if (!(userInput >= MIN_USER_INPUT && userInput <= MAX_STEERING_INPUT))
-        {
-            ss << "조향장치는 " << MIN_USER_INPUT << " ~ " << MAX_STEERING_INPUT;
-            ss << " 범위만 선택 가능\n";
-            printError(ss.str().c_str());
-            return currentStep;
-        }
-
-        selectSteeringSystem(static_cast<SteeringSystem>(userInput));
-        delay(800);
-        return Run_Test;
-    }
-    else if (currentStep == Run_Test)
-    {
-        if (userInput == RunMode::Run)
-        {
-            runProducedCar();
-            delay(2000);
-        }
-        else if (userInput == RunMode::Test)
-        {
-            printf("Test...\n");
-            delay(1500);
-            testProducedCar();
-            delay(2000);
-        }
-        else
-        {
-            printError("Run 또는 Test 중 하나를 선택 필요\n");
-        }
-
-        return currentStep;
-    }
-
-    return currentStep;
-}
-
-const char* generateCarString(CarType carType)
-{
-    switch (carType)
-    {
-    case CarType::SEDAN:
-        return "Sedan";
-    case CarType::SUV:
-	    return "Suv";
-    case CarType::TRUCK:
-	    return "Truck";
-    }
-
-    return STR_UNKNOWN_STR;
-}
-
-const char* generateEngineString(Engine engine)
-{
-    switch (engine)
-    {
-    case Engine::GM:
-        return "GM";
-    case Engine::TOYOTA:
-        return "TOYOTA";
-    case Engine::WIA:
-        return "WIA";
-    case Engine::BROKEN:
-        return "고장난 엔진";
-    }
-
-    return STR_UNKNOWN_STR;
-}
-
-const char* generateBrakeString(BrakeSystem brake)
-{
-    switch (brake)
-    {
-    case BrakeSystem::MANDO:
-        return "MANDO";
-    case BrakeSystem::CONTINENTAL:
-        return "CONTINENTAL";
-    case BrakeSystem::BOSCH_B:
-        return "BOSCH_B";
-    }
-
-    return STR_UNKNOWN_STR;
-}
-
-const char* generateSteeringString(SteeringSystem steering)
-{
-    switch (steering)
-    {
-    case SteeringSystem::BOSCH_S:
-        return "BOSCH_S";
-    case SteeringSystem::MOBIS:
-        return "MOBIS";
-    }
-
-    return STR_UNKNOWN_STR;
-}
-
 const char* generatePassFailString(bool result)
 {
 	return result ? "PASS" : "FAIL";
@@ -531,6 +391,13 @@ void delay(int ms)
 void printLine()
 {
     printf("===============================\n");
+}
+
+void printError(const char* msg)
+{
+    printf("ERROR :: ");
+    printf(msg);
+    delay(800);
 }
 
 #endif

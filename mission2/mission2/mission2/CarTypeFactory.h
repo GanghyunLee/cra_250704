@@ -16,5 +16,9 @@ public:
 
 public:
 	static std::shared_ptr<AbstractCarType> CreateCarType(CarType carType);
+    static bool ValidateUserInputIndex(int carTypeNumber) { return carTypeNumber >= GetMinInput() && carTypeNumber <= GetMaxInput();  }
+
+    static int GetMinInput() { return SEDAN; }
+    static int GetMaxInput() { return TRUCK; }
 };
 

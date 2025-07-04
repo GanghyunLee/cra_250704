@@ -16,5 +16,10 @@ public:
 
 public:
     static std::shared_ptr<AbstractBrakeSystem> CreateBrakeSystem(BrakeSystem brakeSystem);
+
+    static bool ValidateUserInputIndex(int brakeTypeNumber) { return brakeTypeNumber >= GetMinInput() && brakeTypeNumber <= GetMaxInput(); }
+
+    static int GetMinInput() { return MANDO; }
+    static int GetMaxInput() { return BOSCH_B; }
 };
 

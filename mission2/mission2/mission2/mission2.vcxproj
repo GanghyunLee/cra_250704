@@ -138,6 +138,8 @@
     <ClInclude Include="BoschSteering.h" />
     <ClInclude Include="BrakeSystemFactory.h" />
     <ClInclude Include="BrokenEngine.h" />
+    <ClInclude Include="CarRunner.h" />
+    <ClInclude Include="Car.h" />
     <ClInclude Include="CarTypeFactory.h" />
     <ClInclude Include="ContinentalBrake.h" />
     <ClInclude Include="defines.h" />
@@ -172,6 +174,8 @@
     <ClCompile Include="BrakeSystemFactoryTest.cpp" />
     <ClCompile Include="BrokenEngine.cpp" />
     <ClCompile Include="BrokenEngineTest.cpp" />
+    <ClCompile Include="CarRunner.cpp" />
+    <ClCompile Include="Car.cpp" />
     <ClCompile Include="CarTypeFactory.cpp" />
     <ClCompile Include="CarTypeFactoryTest.cpp" />
     <ClCompile Include="ContinentalBrake.cpp" />

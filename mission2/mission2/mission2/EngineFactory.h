@@ -17,5 +17,10 @@ public:
 
 public:
     static std::shared_ptr<AbstractEngine> CreateEngine(Engine engine);
+
+    static bool ValidateUserInputIndex(int engineTypeNumber) { return engineTypeNumber >= GetMinInput() && engineTypeNumber <= GetMaxInput(); }
+
+    static int GetMinInput() { return GM; }
+    static int GetMaxInput() { return BROKEN; }
 };
 
