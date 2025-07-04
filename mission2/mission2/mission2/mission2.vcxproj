@@ -123,22 +123,46 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AbstractBrakeSystem.h" />
+    <ClInclude Include="AbstractEngine.h" />
+    <ClInclude Include="AbstractSteering.h" />
+    <ClInclude Include="BoschBrake.h" />
+    <ClInclude Include="BoschSteering.h" />
+    <ClInclude Include="BrokenEngine.h" />
+    <ClInclude Include="ContinentalBrake.h" />
     <ClInclude Include="defines.h" />
     <ClInclude Include="AbstractCarType.h" />
+    <ClInclude Include="GmEngine.h" />
     <ClInclude Include="ICarComponent.h" />
+    <ClInclude Include="MandoBrake.h" />
+    <ClInclude Include="MobisSteering.h" />
     <ClInclude Include="Sedan.h" />
     <ClInclude Include="Suv.h" />
+    <ClInclude Include="ToyotaEngine.h" />
     <ClInclude Include="Truck.h" />
     <ClInclude Include="utils.h" />
+    <ClInclude Include="WiaEngine.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AbstractBrakeSystem.cpp" />
+    <ClCompile Include="AbstractEngine.cpp" />
+    <ClCompile Include="AbstractSteering.cpp" />
     <ClCompile Include="assemble.cpp" />
     <ClCompile Include="AbstractCarType.cpp" />
+    <ClCompile Include="BoschBrake.cpp" />
+    <ClCompile Include="BoschSteering.cpp" />
+    <ClCompile Include="BrokenEngine.cpp" />
+    <ClCompile Include="ContinentalBrake.cpp" />
+    <ClCompile Include="GmEngine.cpp" />
     <ClCompile Include="ICarComponent.cpp" />
+    <ClCompile Include="MandoBrake.cpp" />
+    <ClCompile Include="MobisSteering.cpp" />
     <ClCompile Include="Sedan.cpp" />
     <ClCompile Include="Suv.cpp" />
+    <ClCompile Include="ToyotaEngine.cpp" />
     <ClCompile Include="Truck.cpp" />
     <ClCompile Include="utils.cpp" />
+    <ClCompile Include="WiaEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

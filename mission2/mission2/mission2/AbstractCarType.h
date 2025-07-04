@@ -1,6 +1,4 @@
 ﻿#pragma once
-#include <string>
-
 #include "ICarComponent.h"
 
 class AbstractCarType : public ICarComponent
