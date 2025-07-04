@@ -7,6 +7,6 @@ public:
 	~BoschSteering() override = default;
 
 public:
-	std::string GetEngineName() override { return "BOSCH"; }
+	std::string GetSteeringName() override { return "BOSCH"; }
 };
 

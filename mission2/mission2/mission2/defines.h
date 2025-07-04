@@ -18,12 +18,6 @@ enum QuestionType
     Run_Test,
 };
 
-enum SteeringSystem
-{
-    BOSCH_S = 1,
-    MOBIS,
-};
-
 enum RunMode
 {
 	Run = 1,

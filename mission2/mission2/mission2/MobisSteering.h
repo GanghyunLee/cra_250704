@@ -7,5 +7,5 @@ public:
 	~MobisSteering() override = default;
 
 public:
-	std::string GetEngineName() override { return "MOBIS"; }
+	std::string GetSteeringName() override { return "MOBIS"; }
 };

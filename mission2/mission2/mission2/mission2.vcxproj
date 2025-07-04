@@ -148,6 +148,7 @@
     <ClInclude Include="MandoBrake.h" />
     <ClInclude Include="MobisSteering.h" />
     <ClInclude Include="Sedan.h" />
+    <ClInclude Include="SteeringSystemFactory.h" />
     <ClInclude Include="Suv.h" />
     <ClInclude Include="ToyotaEngine.h" />
     <ClInclude Include="Truck.h" />
@@ -160,11 +161,13 @@
     <ClCompile Include="AbstractEngine.cpp" />
     <ClCompile Include="AbstractEngineTest.cpp" />
     <ClCompile Include="AbstractSteering.cpp" />
+    <ClCompile Include="AbstractSteeringTest.cpp" />
     <ClCompile Include="assemble.cpp" />
     <ClCompile Include="AbstractCarType.cpp" />
     <ClCompile Include="BoschBrake.cpp" />
     <ClCompile Include="BoschBrakeTest.cpp" />
     <ClCompile Include="BoschSteering.cpp" />
+    <ClCompile Include="BoschSteeringTest.cpp" />
     <ClCompile Include="BrakeSystemFactory.cpp" />
     <ClCompile Include="BrakeSystemFactoryTest.cpp" />
     <ClCompile Include="BrokenEngine.cpp" />
@@ -181,8 +184,11 @@
     <ClCompile Include="MandoBrake.cpp" />
     <ClCompile Include="MandoBrakeTest.cpp" />
     <ClCompile Include="MobisSteering.cpp" />
+    <ClCompile Include="MobisSteeringTest.cpp" />
     <ClCompile Include="Sedan.cpp" />
     <ClCompile Include="SedanTest.cpp" />
+    <ClCompile Include="SteeringSystemFactory.cpp" />
+    <ClCompile Include="SteeringSystemFactoryTest.cpp" />
     <ClCompile Include="Suv.cpp" />
     <ClCompile Include="SuvTest.cpp" />
     <ClCompile Include="ToyotaEngine.cpp" />

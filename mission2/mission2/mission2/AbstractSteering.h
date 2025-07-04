@@ -7,7 +7,7 @@ public:
 	virtual ~AbstractSteering() = default;
 
 public:
-	virtual std::string GetEngineName() = 0;
+	virtual std::string GetSteeringName() = 0;
 	std::string GetComponentName() override { return "조향장치"; }
 };
 
