@@ -1,5 +1,7 @@
 #include "CarTypeFactory.h"
 
+#include <sstream>
+
 #include "Sedan.h"
 #include "Suv.h"
 #include "Truck.h"
@@ -17,4 +19,15 @@ std::shared_ptr<AbstractCarType> CarTypeFactory::CreateCarType(CarType carType)
 	}
 
 	return nullptr;
+}
+
+std::string CarTypeFactory::EnumeratesCatalogs()
+{
+	std::stringstream ss;
+	for (int i = GetMinInput(); i <= GetMaxInput(); i++)
+	{
+		ss << i << ". " << CreateCarType(static_cast<CarType>(i))->GetCarTypeName() << "\n";
+	}
+
+	return ss.str();
 }

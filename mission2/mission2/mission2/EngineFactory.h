@@ -22,5 +22,7 @@ public:
 
     static int GetMinInput() { return GM; }
     static int GetMaxInput() { return BROKEN; }
+
+    static std::string EnumeratesCatalogs();
 };
 

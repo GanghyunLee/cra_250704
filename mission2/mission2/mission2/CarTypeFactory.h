@@ -20,5 +20,7 @@ public:
 
     static int GetMinInput() { return SEDAN; }
     static int GetMaxInput() { return TRUCK; }
+
+    static std::string EnumeratesCatalogs();
 };
 

@@ -20,5 +20,7 @@ public:
 
     static int GetMinInput() { return BOSCH_S; }
     static int GetMaxInput() { return MOBIS; }
+
+    static std::string EnumeratesCatalogs();
 };
 
