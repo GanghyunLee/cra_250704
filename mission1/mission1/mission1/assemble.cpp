@@ -1,4 +1,6 @@
-﻿#include "defines.h"
+﻿#include <assert.h>
+
+#include "defines.h"
 #include "utils.h"
 
 #ifdef _DEBUG
@@ -13,7 +15,7 @@ int main()
 
 #else
 
-int stack[10];
+int userInputList[10];
 
 void selectCarType(int answer);
 void selectEngine(int answer);
@@ -22,6 +24,7 @@ void selectSteeringSystem(int answer);
 void runProducedCar();
 void testProducedCar();
 void printCarLogo();
+void printError(const char* msg);
 
 void getUserInput(OUT char buf[100]);
 bool isExitString(const char* buf);
@@ -50,8 +53,7 @@ int main()
         int answer = 0;
         if (false == tryParseNumber(buf, OUT answer))
         {
-            printf("ERROR :: 숫자만 입력 가능\n");
-            delay(800);
+	        printError("숫자만 입력 가능\n");
             continue;
         }
 
@@ -59,9 +61,10 @@ int main()
     }
 }
 
-void selectCarType(int answer)
+void selectCarType(CarType answer)
 {
-    stack[CarType_Q] = answer;
+    userInputList[CarType_Q] = answer;
+    
     if (answer == 1)
         printf("차량 타입으로 Sedan을 선택하셨습니다.\n");
     if (answer == 2)
@@ -72,7 +75,7 @@ void selectCarType(int answer)
 
 void selectEngine(int answer)
 {
-    stack[Engine_Q] = answer;
+    userInputList[Engine_Q] = answer;
     if (answer == 1)
         printf("GM 엔진을 선택하셨습니다.\n");
     if (answer == 2)
@@ -83,7 +86,7 @@ void selectEngine(int answer)
 
 void selectbrakeSystem(int answer)
 {
-    stack[brakeSystem_Q] = answer;
+    userInputList[brakeSystem_Q] = answer;
     if (answer == 1)
         printf("MANDO 제동장치를 선택하셨습니다.\n");
     if (answer == 2)
@@ -94,32 +97,32 @@ void selectbrakeSystem(int answer)
 
 void selectSteeringSystem(int answer)
 {
-    stack[SteeringSystem_Q] = answer;
+    userInputList[SteeringSystem_Q] = answer;
     if (answer == 1)
         printf("BOSCH 조향장치를 선택하셨습니다.\n");
     if (answer == 2)
         printf("MOBIS 조향장치를 선택하셨습니다.\n");
 }
 
-int isValidCheck()
+int ValidateUserInputList()
 {
-    if (stack[CarType_Q] == SEDAN && stack[brakeSystem_Q] == CONTINENTAL)
+    if (userInputList[CarType_Q] == SEDAN && userInputList[brakeSystem_Q] == CONTINENTAL)
     {
         return false;
     }
-    else if (stack[CarType_Q] == SUV && stack[Engine_Q] == TOYOTA)
+    else if (userInputList[CarType_Q] == SUV && userInputList[Engine_Q] == TOYOTA)
     {
         return false;
     }
-    else if (stack[CarType_Q] == TRUCK && stack[Engine_Q] == WIA)
+    else if (userInputList[CarType_Q] == TRUCK && userInputList[Engine_Q] == WIA)
     {
         return false;
     }
-    else if (stack[CarType_Q] == TRUCK && stack[brakeSystem_Q] == MANDO)
+    else if (userInputList[CarType_Q] == TRUCK && userInputList[brakeSystem_Q] == MANDO)
     {
         return false;
     }
-    else if (stack[brakeSystem_Q] == BOSCH_B && stack[SteeringSystem_Q] != BOSCH_S)
+    else if (userInputList[brakeSystem_Q] == BOSCH_B && userInputList[SteeringSystem_Q] != BOSCH_S)
     {
         return false;
     }
@@ -132,40 +135,41 @@ int isValidCheck()
 
 void runProducedCar()
 {
-    if (isValidCheck() == false)
+    if (ValidateUserInputList() == false)
     {
         printf("자동차가 동작되지 않습니다\n");
     }
     else
     {
-        if (stack[Engine_Q] == 4)
+        if (userInputList[Engine_Q] == 4)
         {
             printf("엔진이 고장나있습니다.\n");
             printf("자동차가 움직이지 않습니다.\n");
         }
         else
         {
-            if (stack[CarType_Q] == 1)
+            if (userInputList[CarType_Q] == 1)
                 printf("Car Type : Sedan\n");
-            if (stack[CarType_Q] == 2)
+            if (userInputList[CarType_Q] == 2)
                 printf("Car Type : SUV\n");
-            if (stack[CarType_Q] == 3)
+            if (userInputList[CarType_Q] == 3)
                 printf("Car Type : Truck\n");
-            if (stack[Engine_Q] == 1)
+            if (userInputList[Engine_Q] == 1)
                 printf("Engine : GM\n");
-            if (stack[Engine_Q] == 2)
+                printf("Engine : GM\n");
+            if (userInputList[Engine_Q] == 2)
                 printf("Engine : TOYOTA\n");
-            if (stack[Engine_Q] == 3)
+            if (userInputList[Engine_Q] == 3)
                 printf("Engine : WIA\n");
-            if (stack[brakeSystem_Q] == 1)
+            if (userInputList[brakeSystem_Q] == 1)
                 printf("Brake System : Mando");
-            if (stack[brakeSystem_Q] == 2)
+            if (userInputList[brakeSystem_Q] == 2)
                 printf("Brake System : Continental\n");
-            if (stack[brakeSystem_Q] == 3)
+            if (userInputList[brakeSystem_Q] == 3)
                 printf("Brake System : Bosch\n");
-            if (stack[SteeringSystem_Q] == 1)
+            if (userInputList[SteeringSystem_Q] == 1)
                 printf("SteeringSystem : Bosch\n");
-            if (stack[SteeringSystem_Q] == 2)
+            if (userInputList[SteeringSystem_Q] == 2)
                 printf("SteeringSystem : Mobis\n");
 
             printf("자동차가 동작됩니다.\n");
@@ -175,27 +179,27 @@ void runProducedCar()
 
 void testProducedCar()
 {
-    if (stack[CarType_Q] == SEDAN && stack[brakeSystem_Q] == CONTINENTAL)
+    if (userInputList[CarType_Q] == SEDAN && userInputList[brakeSystem_Q] == CONTINENTAL)
     {
         printf("자동차 부품 조합 테스트 결과 : FAIL\n");
         printf("Sedan에는 Continental제동장치 사용 불가\n");
     }
-    else if (stack[CarType_Q] == SUV && stack[Engine_Q] == TOYOTA)
+    else if (userInputList[CarType_Q] == SUV && userInputList[Engine_Q] == TOYOTA)
     {
         printf("자동차 부품 조합 테스트 결과 : FAIL\n");
         printf("SUV에는 TOYOTA엔진 사용 불가\n");
     }
-    else if (stack[CarType_Q] == TRUCK && stack[Engine_Q] == WIA)
+    else if (userInputList[CarType_Q] == TRUCK && userInputList[Engine_Q] == WIA)
     {
         printf("자동차 부품 조합 테스트 결과 : FAIL\n");
         printf("Truck에는 WIA엔진 사용 불가\n");
     }
-    else if (stack[CarType_Q] == TRUCK && stack[brakeSystem_Q] == MANDO)
+    else if (userInputList[CarType_Q] == TRUCK && userInputList[brakeSystem_Q] == MANDO)
     {
         printf("자동차 부품 조합 테스트 결과 : FAIL\n");
         printf("Truck에는 Mando제동장치 사용 불가\n");
     }
-    else if (stack[brakeSystem_Q] == BOSCH_B && stack[SteeringSystem_Q] != BOSCH_S)
+    else if (userInputList[brakeSystem_Q] == BOSCH_B && userInputList[SteeringSystem_Q] != BOSCH_S)
     {
         printf("자동차 부품 조합 테스트 결과 : FAIL\n");
         printf("Bosch제동장치에는 Bosch조향장치 이외 사용 불가\n");
@@ -213,6 +217,13 @@ void printCarLogo()
     printf("  ____/_|_____________|____\n");
     printf(" |                      O  |\n");
     printf(" '-(@)----------------(@)--'\n");
+}
+
+void printError(const char* msg)
+{
+    printf("ERROR :: ");
+    printf(msg);
+    delay(800);
 }
 
 bool isExitString(const char* buf)
@@ -294,8 +305,7 @@ QuestionType processUserInput(QuestionType currentStep, int userInput)
     {
         if (!(userInput >= 1 && userInput <= 3))
         {
-            printf("ERROR :: 차량 타입은 1 ~ 3 범위만 선택 가능\n");
-            delay(800);
+            printError("차량 타입은 1 ~ 3 범위만 선택 가능\n");
             return currentStep;
         }
 
@@ -307,8 +317,7 @@ QuestionType processUserInput(QuestionType currentStep, int userInput)
     {
         if (!(userInput >= 1 && userInput <= 4))
         {
-            printf("ERROR :: 엔진은 1 ~ 4 범위만 선택 가능\n");
-            delay(800);
+	        printError("엔진은 1 ~ 4 범위만 선택 가능\n");
             return currentStep;
         }
 
@@ -320,8 +329,7 @@ QuestionType processUserInput(QuestionType currentStep, int userInput)
     {
         if (!(userInput >= 1 && userInput <= 3))
         {
-            printf("ERROR :: 제동장치는 1 ~ 3 범위만 선택 가능\n");
-            delay(800);
+	        printError("제동장치는 1 ~ 3 범위만 선택 가능\n");
             return currentStep;
         }
 
@@ -333,8 +341,7 @@ QuestionType processUserInput(QuestionType currentStep, int userInput)
     {
         if (!(userInput >= 1 && userInput <= 2))
         {
-            printf("ERROR :: 조향장치는 1 ~ 2 범위만 선택 가능\n");
-            delay(800);
+	        printError("조향장치는 1 ~ 2 범위만 선택 가능\n");
             return currentStep;
         }
 
@@ -358,12 +365,13 @@ QuestionType processUserInput(QuestionType currentStep, int userInput)
         }
         else
         {
-            printf("ERROR :: Run 또는 Test 중 하나를 선택 필요\n");
-            delay(800);
+            printError("Run 또는 Test 중 하나를 선택 필요\n");
         }
 
         return currentStep;
     }
+
+    return currentStep;
 }
 
 void getUserInput(OUT char buf[100])
